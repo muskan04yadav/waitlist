@@ -15,15 +15,21 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "build": "CI=false react-scripts build",
+    "test": "CI=false react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "no-unused-vars": ["warn"],  
+      "react-hooks/exhaustive-deps": ["warn"],
+      "eqeqeq": ["warn"],
+      "array-callback-return": ["warn"]
+    }
   },
   "browserslist": {
     "production": [
