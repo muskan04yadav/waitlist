@@ -10,6 +10,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
     - name: Deploy React App
       uses: ./github/actions/react-deploy/action.yml
       with:
