@@ -39,7 +39,10 @@ runs:
     
     - name: Debug Environment
       shell: bash
-      run: env
+      run: |
+        echo "AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID"
+        echo "AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY"
+        echo "AWS_REGION: $AWS_REGION"
 
     - name: Deploy to s3
       shell: bash
@@ -48,6 +51,6 @@ runs:
       env:
         aws-access-key-id: ${{ inputs.aws-access-key-id }}
         aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
-        aws-region: "us-east-1"  # Replace with your region
+        aws-region: ${{ inputs.aws-region }}  # Replace with your region
 
 
