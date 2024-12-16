@@ -8,6 +8,12 @@ inputs:
   s3-bucket:
     description: The s3 bucket name to deploy the App
     required: true
+  AWS_ACCESS_KEY_ID:
+    description: AWS Access Key ID
+    required: true
+  AWS_SECRET_ACCESS_KEY:
+    description: AWS Secret Access Key
+    required: true
 runs:
   using: composite
   steps:
@@ -32,8 +38,8 @@ runs:
       run: |
         aws s3 sync build/ s3://${{ inputs.s3-bucket }} --delete
       env:
-        AWS_ACCESS_KEY_ID: ${{ AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ AWS_SECRET_ACCESS_KEY }}
+        AWS_ACCESS_KEY_ID: ${{ inputs.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ inputs.AWS_SECRET_ACCESS_KEY }}
         AWS_REGION: "us-east-1"  # Replace with your region
 
 
