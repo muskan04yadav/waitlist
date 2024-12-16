@@ -8,10 +8,6 @@ inputs:
   s3-bucket:
     description: The s3 bucket name to deploy the App
     required: true
-outputs:
-  status:
-    description: Deployment Status.
-    value: ${{ step.deploy-s3.outputs.status}}
 runs:
   using: composite
   steps:
@@ -25,7 +21,7 @@ runs:
 
     - name:  Install Dependencies
       shell : bash
-      run: npm Install
+      run: npm install
 
     - name: Build React App
       shell: bash
@@ -34,10 +30,10 @@ runs:
     - name: Deploy to s3
       shell: bash
       run: |
-        aws s3 sync build/ s3://${{ input.s3-bucket }} --delete
+        aws s3 sync build/ s3://${{ inputs.s3-bucket }} --delete
       env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_ACCESS_KEY_ID: ${{ AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ AWS_SECRET_ACCESS_KEY }}
         AWS_REGION: "us-east-1"  # Replace with your region
 
 
