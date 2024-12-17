@@ -48,7 +48,7 @@ runs:
     - name: Deploy to s3
       shell: bash
       run: |
-        aws s3 sync build/ s3://${{ inputs.s3-bucket }} --delete --acl public-read
+        aws s3 sync build/ s3://${{ inputs.s3-bucket }} --delete
       env:
         AWS_ACCESS_KEY_ID: ${{ inputs.aws-access-key-id }}
         AWS_SECRET_ACCESS_KEY: ${{ inputs.aws-secret-access-key }}
