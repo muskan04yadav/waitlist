@@ -40,18 +40,15 @@ runs:
     - name: Debug Environment
       shell: bash
       run: |
-        echo "AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID"
-        echo "AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY"
-        echo "AWS_REGION: $AWS_REGION"
-      env:
-        AWS_ACCESS_KEY_ID: ${{ inputs.aws-access-key-id }}
-        AWS_SECRET_ACCESS_KEY: ${{ inputs.aws-secret-access-key }}
-        AWS_REGION: ${{ inputs.aws-region }}
+        echo "AWS_ACCESS_KEY_ID: ${{ inputs.aws-access-key-id }}"
+        echo "AWS_SECRET_ACCESS_KEY: ${{ inputs.aws-secret-access-key }}"
+        echo "AWS_REGION: ${{ inputs.aws-region }}"
+        echo "S3_BUCKET: ${{ inputs.s3-bucket }}"
 
     - name: Deploy to s3
       shell: bash
       run: |
-        aws s3 sync build/ s3://${{ inputs.s3-bucket }} --delete
+        aws s3 sync build/ s3://${{ inputs.s3-bucket }} --delete --acl public-read
       env:
         AWS_ACCESS_KEY_ID: ${{ inputs.aws-access-key-id }}
         AWS_SECRET_ACCESS_KEY: ${{ inputs.aws-secret-access-key }}

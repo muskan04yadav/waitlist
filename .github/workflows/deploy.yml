@@ -17,7 +17,7 @@ jobs:
       uses: ./.github/actions/react-deploy
       with:
         node-version: 16  # Use the appropriate version for your project
-        s3-bucket: waitlist-bucket
+        s3-bucket: list-buckets
       env:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
