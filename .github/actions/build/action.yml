@@ -1,0 +1,23 @@
+name: Build
+description: composite action for building the nodejs App
+inputs:
+  build-command:
+    description: Command to build the App
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: set up nodejs
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+
+    - name: Install Dependencies
+      uses: npm install
+
+    - name: Build Project
+      uses: ${{ inputs.build-command }}
+

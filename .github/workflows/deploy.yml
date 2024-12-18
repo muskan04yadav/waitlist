@@ -1,4 +1,4 @@
-name: Deploy React App to S3
+name: Build and Deploy React App to S3
 
 on:
   push:
@@ -6,21 +6,39 @@ on:
       - main  # Trigger deployment on pushes to the main branch
 
 jobs:
-  deploy:
+  build:
+    name: Build Project
     runs-on: ubuntu-latest
-
+    steps: 
+      - name: Run Build
+        uses: ./.github/actions/build
+        with:
+          build-command: "npm run build"
+  deploy:
+    name: Deploy Project
+    needs: build
+    runs-on: ubuntu-latest
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v3
 
-    - name: Deploy React App
-      uses: ./.github/actions/react-deploy
+    - name: Download Build Artifacts
+      uses: actions/download-artifact@v3
       with:
-        node-version: 16  # Use the appropriate version for your project
-        s3-bucket: list-buckets
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: "us-east-1"
+        name: build
+
+    - name: Run Deploy Composite Action
+      uses: ./.github/actions/deploy
+      with: 
+        bucket-name: "list-buckets"
+
+    # - name: Configure AWS credentials
+    #   uses: aws-actions/configure-aws-credentials@v3
+    #   with:
+    #     aws-access-key-id: {{ secrets.AWS_ACCESS_KEY_ID }}
+    #     aws-secret-access-key: {{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #     aws-region: "us-east-1"
+
+    # - name: sync to s3
+    #   run: aws s3 sync build/ s3://list-buckets --delete
 
     #     AWS_REGION: "us-east-1"  # Replace with your region
     #   run: |
