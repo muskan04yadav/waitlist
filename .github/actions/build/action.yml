@@ -16,8 +16,16 @@ runs:
         node-version: '16'
 
     - name: Install Dependencies
-      uses: npm install
+      shell: bash
+      run: npm install
 
     - name: Build Project
-      uses: ${{ inputs.build-command }}
+      shell: bash
+      run: ${{ inputs.build-command }}
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifacts@v3
+      with:
+        name: build
+        path: ./build 
 
