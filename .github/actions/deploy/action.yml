@@ -24,6 +24,11 @@ runs:
       uses: actions/download-artifact@v3
       with:
         name: build
+        path: ./build
+
+    - name: Debug Artifact Contents
+      shell: bash
+      run: ls -la ./build
 
     - name: sync to s3
       shell: bash
