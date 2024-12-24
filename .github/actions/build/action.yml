@@ -1,31 +1,31 @@
-name: Build
-description: composite action for building the nodejs App
-inputs:
-  build-command:
-    description: Command to build the App
-    required: true
-runs:
-  using: "composite"
-  steps:
-    - name: Checkout Code
-      uses: actions/checkout@v3
+# name: Build
+# description: composite action for building the nodejs App
+# inputs:
+#   build-command:
+#     description: Command to build the App
+#     required: true
+# runs:
+#   using: "composite"
+#   steps:
+#     - name: Checkout Code
+#       uses: actions/checkout@v3
 
-    - name: set up nodejs
-      uses: actions/setup-node@v3
-      with:
-        node-version: '16'
+#     - name: set up nodejs
+#       uses: actions/setup-node@v3
+#       with:
+#         node-version: '16'
 
-    - name: Install Dependencies
-      shell: bash
-      run: npm install
+#     - name: Install Dependencies
+#       shell: bash
+#       run: npm install
 
-    - name: Build Project
-      shell: bash
-      run: ${{ inputs.build-command }}
+#     - name: Build Project
+#       shell: bash
+#       run: ${{ inputs.build-command }}
 
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: build
-        path: ./build 
+#     - name: Upload build artifacts
+#       uses: actions/upload-artifact@v3
+#       with:
+#         name: build
+#         path: ./build 
 
