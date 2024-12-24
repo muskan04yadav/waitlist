@@ -1,52 +1,87 @@
-name: Build and Deploy React App to S3
+
+name: Build and Deploy
 
 on:
   push:
     branches:
-      - main  # Trigger deployment on pushes to the main branch
+      - main
 
 jobs:
-  build:
-    name: Build Project
-    runs-on: ubuntu-latest
-    steps: 
-      - name: Checkout Code
-        uses: actions/checkout@v3
+  build-and-deploy:
+    uses: muskan04yadav/shared-workflow/.github/workflows/reusable-build-deploy.yml@main
+    with:
+      build-command: "npm run build"
+      bucket-name: "list-buckets"
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      - name: Run Build
-        uses: ./.github/actions/build
-        with:
-          build-command: "npm run build"
-  deploy:
-    name: Deploy Project
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
 
-      # - name: Download Build Artifacts
-      #   uses: actions/download-artifact@v3
-      #   with:
-      #     name: build
 
-      - name: Run Deploy Composite Action
-        uses: ./.github/actions/deploy
-        with: 
-          bucket-name: "list-buckets"
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-    # - name: Configure AWS credentials
-    #   uses: aws-actions/configure-aws-credentials@v3
-    #   with:
-    #     aws-access-key-id: {{ secrets.AWS_ACCESS_KEY_ID }}
-    #     aws-secret-access-key: {{ secrets.AWS_SECRET_ACCESS_KEY }}
-    #     aws-region: "us-east-1"
 
-    # - name: sync to s3
-    #   run: aws s3 sync build/ s3://list-buckets --delete
 
-    #     AWS_REGION: "us-east-1"  # Replace with your region
-    #   run: |
-    #     aws s3 sync build/ s3://waitlist-bucket --delete
+
+
+
+
+
+
+
+
+
+
+
+
+# name: Build and Deploy React App to S3
+
+# on:
+#   push:
+#     branches:
+#       - reusable  # Trigger deployment on pushes to the main branch
+
+# jobs:
+#   build:
+#     name: Build Project
+#     runs-on: ubuntu-latest
+#     steps: 
+#       - name: Checkout Code
+#         uses: actions/checkout@v3
+
+#       - name: Use Build Action
+#         uses: muskan04yadav/nodejs-build-action@main
+#         with:
+#           build-command: "npm run build"
+#   deploy:
+#     name: Deploy Project
+#     needs: build
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout Code
+#         uses: actions/checkout@v3
+
+#       # - name: Download Build Artifacts
+#       #   uses: actions/download-artifact@v3
+#       #   with:
+#       #     name: build
+
+#       - name: Run Deploy Composite Action
+#         uses: ./.github/actions/deploy
+#         with: 
+#           bucket-name: "list-buckets"
+#           aws-access-key-id: {{ secrets.AWS_ACCESS_KEY_ID }}
+#           aws-secret-access-key: {{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+#     # - name: Configure AWS credentials
+#     #   uses: aws-actions/configure-aws-credentials@v3
+#     #   with:
+#     #     aws-access-key-id: {{ secrets.AWS_ACCESS_KEY_ID }}
+#     #     aws-secret-access-key: {{ secrets.AWS_SECRET_ACCESS_KEY }}
+#     #     aws-region: "us-east-1"
+
+#     # - name: sync to s3
+#     #   run: aws s3 sync build/ s3://list-buckets --delete
+
+#     #     AWS_REGION: "us-east-1"  # Replace with your region
+#     #   run: |
+#     #     aws s3 sync build/ s3://waitlist-bucket --delete

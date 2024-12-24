@@ -1,58 +1,58 @@
-name: React App Deployment
-description: A composite action to deploy a React App
-inputs:
-  node-version:
-    description: Node.js version to use.
-    required: true
-    default: "16"
-  s3-bucket:
-    description: The s3 bucket name to deploy the App
-    required: true
-  aws-access-key-id:
-    description: AWS Access Key ID
-    required: true
-  aws-secret-access-key:
-    description: AWS Secret Access Key
-    required: true
-  aws-region:
-    description: AWS Region
-    required: true
-    default: "us-east-1"
-runs:
-  using: composite
-  steps:
-    - name: Checkout Code
-      uses: actions/checkout@v3
+# name: React App Deployment
+# description: A composite action to deploy a React App
+# inputs:
+#   node-version:
+#     description: Node.js version to use.
+#     required: true
+#     default: "16"
+#   s3-bucket:
+#     description: The s3 bucket name to deploy the App
+#     required: true
+#   aws-access-key-id:
+#     description: AWS Access Key ID
+#     required: true
+#   aws-secret-access-key:
+#     description: AWS Secret Access Key
+#     required: true
+#   aws-region:
+#     description: AWS Region
+#     required: true
+#     default: "us-east-1"
+# runs:
+#   using: composite
+#   steps:
+#     - name: Checkout Code
+#       uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ inputs.node-version }}
+#     - name: Set up Node.js
+#       uses: actions/setup-node@v3
+#       with:
+#         node-version: ${{ inputs.node-version }}
 
-    - name:  Install Dependencies
-      shell : bash
-      run: npm install
+#     - name:  Install Dependencies
+#       shell : bash
+#       run: npm install
 
-    - name: Build React App
-      shell: bash
-      run: npm run build
+#     - name: Build React App
+#       shell: bash
+#       run: npm run build
     
-    - name: Debug Environment
-      shell: bash
-      run: |
-        echo "AWS_ACCESS_KEY_ID: ${{ inputs.aws-access-key-id }}"
-        echo "AWS_SECRET_ACCESS_KEY: ${{ inputs.aws-secret-access-key }}"
-        echo "AWS_REGION: ${{ inputs.aws-region }}"
-        echo "S3_BUCKET: ${{ inputs.s3-bucket }}"
+#     - name: Debug Environment
+#       shell: bash
+#       run: |
+#         echo "AWS_ACCESS_KEY_ID: ${{ inputs.aws-access-key-id }}"
+#         echo "AWS_SECRET_ACCESS_KEY: ${{ inputs.aws-secret-access-key }}"
+#         echo "AWS_REGION: ${{ inputs.aws-region }}"
+#         echo "S3_BUCKET: ${{ inputs.s3-bucket }}"
 
-    - name: Deploy to s3
-      shell: bash
-      run: |
-        aws s3 sync build/ s3://${{ inputs.s3-bucket }} --delete
-      env:
-        AWS_ACCESS_KEY_ID: ${{ inputs.aws-access-key-id }}
-        AWS_SECRET_ACCESS_KEY: ${{ inputs.aws-secret-access-key }}
-        AWS_REGION: ${{ inputs.aws-region }}
+#     - name: Deploy to s3
+#       shell: bash
+#       run: |
+#         aws s3 sync build/ s3://${{ inputs.s3-bucket }} --delete --acl public-read
+#       env:
+#         AWS_ACCESS_KEY_ID: ${{ inputs.aws-access-key-id }}
+#         AWS_SECRET_ACCESS_KEY: ${{ inputs.aws-secret-access-key }}
+#         AWS_REGION: ${{ inputs.aws-region }}
 
 
 
