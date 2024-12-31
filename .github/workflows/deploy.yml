@@ -12,10 +12,11 @@ jobs:
     with:
       build-command: "npm run build"
       bucket-name: "nodejs-buckets"
-      CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+      cloudfront-distribution-id: "E3VK0BI4GGG322"
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      
 
 
 
